@@ -32,3 +32,19 @@
 ### ZOD recommendation
 
 - Solo haz schema para validar las res con GET, no es necesario validar todo lo demas (ejem: las res de PUT, POST, DELETE...).
+
+### Types recommendation
+
+- Si necesito types para pros que se pasan a components, hazlas en el mismo component. Ejem: ProjectForm, editProjectForm, TaskForm, ...
+
+### queries in URL
+
+- Para mostrar modals se puede usar el pattern de hacerlo de acuerdo a la query de la url. Ejm: AddTaskModal en projectDetailsView con "?newTask=true" -->
+  `  const location = useLocation();
+const queryParams = new URLSearchParams(location.search);
+const modalTask = queryParams.get("newTask");
+const show = modalTask ? true : false;`
+
+- Para limpiar la URL (con el replace: true) -->
+  ` const navigate = useNavigate()
+navigate(location.pathname, { replace: true })`
