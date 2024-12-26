@@ -1,6 +1,6 @@
 import { TaskProject } from "@/types/index";
 import TaskCard from "./TaskCard";
-import { statusTranslations } from "../locales/es";
+import { statusTranslations } from "@/locales/es";
 
 type TaskListProps = {
   tasks: TaskProject[];
