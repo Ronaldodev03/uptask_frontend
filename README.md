@@ -37,6 +37,8 @@
 
 - Si necesito types para pros que se pasan a components, hazlas en el mismo component. Ejem: ProjectForm, editProjectForm, TaskForm, ...
 
+- Objeto cuyas key y values sean strings random se tipea coomo --> { [key: string]: string }. Ejm: statusStyles en TaskList
+
 ### queries in URL
 
 - Para mostrar modals se puede usar el pattern de hacerlo de acuerdo a la query de la url. Ejm: AddTaskModal en projectDetailsView con "?newTask=true" -->
