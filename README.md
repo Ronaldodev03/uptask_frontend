@@ -23,6 +23,8 @@
 
 - En useQuery "isError" retorna booleano (true o false) y "error" retorna el error del backend.
 
+- "enabled" lo que hace es solo permitir la consulta si la condicion es true. Ejm: enabled con !!taskId en EditTaskData.
+
 ### useMutation de ReactQuery
 
 - mutate recibe un solo parametro, si se necesita enviarle varios entonces se pueden pasan como un solo objeto --> mutate(data), donde data ={formData, projectId}
@@ -33,11 +35,20 @@
 
 - Solo haz schema para validar las res con GET, no es necesario validar todo lo demas (ejem: las res de PUT, POST, DELETE...).
 
-### Types recommendation
+### Types recommendation & notes
 
 - Si necesito types para pros que se pasan a components, hazlas en el mismo component. Ejem: ProjectForm, editProjectForm, TaskForm, ...
 
 - Objeto cuyas key y values sean strings random se tipea coomo --> { [key: string]: string }. Ejm: statusStyles en TaskList
+
+- Doble signo de exclamacion al comienzo hace es transformar la variable a boolean (true si tiene data, false si no). Ejm: enabled con !!taskId en EditTaskData.
+
+- const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const taskId = queryParams.get("editTask")!; --> el signo de exclamacion le dice a TS que esta variable no será null.
+
+- const params = useParams();
+  const projectId = params.projectId!; --> el signo de exclamacion le dice a TS que esta variable no será undefined
 
 ### queries in URL
 
