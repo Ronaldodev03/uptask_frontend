@@ -4,6 +4,7 @@ import { getFullProject } from "@/api/ProjectAPI";
 import AddTaskModal from "../tasks/AddTaskModal";
 import TaskList from "@/components/tasks/TaskList";
 import EditTaskData from "@/components/tasks/EditTaskData";
+import TaskModalDetails from "@/components/tasks/TaskModalDetail";
 
 export default function ProjectDetailsView() {
   const navigate = useNavigate();
@@ -50,6 +51,7 @@ export default function ProjectDetailsView() {
         <TaskList tasks={data.tasks} />
         <AddTaskModal />
         <EditTaskData />
+        <TaskModalDetails />
       </>
     );
 }

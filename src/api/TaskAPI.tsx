@@ -72,3 +72,19 @@ export async function deleteTask({
     }
   }
 }
+
+export async function updateStatus({
+  projectId,
+  taskId,
+  status,
+}: Pick<TaskAPIType, "projectId" | "taskId" | "status">) {
+  try {
+    const url = `/projects/${projectId}/tasks/${taskId}/status`;
+    const { data } = await api.post<string>(url, { status });
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error);
+    }
+  }
+}

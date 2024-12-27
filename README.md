@@ -61,3 +61,8 @@ const show = modalTask ? true : false;`
 - Para limpiar la URL (con el replace: true) -->
   ` const navigate = useNavigate()
 navigate(location.pathname, { replace: true })`
+
+### REACT TOASTIFY
+
+- toast.error(error.message,
+  { toastId: "error" }); --> el toastId es para que react no haga doble render del toast. Ejm: TaskModalDetail.
