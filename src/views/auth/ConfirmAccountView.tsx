@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { PinInput, PinInputField } from "@chakra-ui/pin-input";
 import { useMutation } from "@tanstack/react-query";
 import { ConfirmToken } from "@/types/index";
@@ -52,6 +53,15 @@ export default function ConfirmAccountView() {
           </PinInput>
         </div>
       </form>
+
+      <nav className="mt-10 flex flex-col space-y-4">
+        <Link
+          to="/auth/request-code"
+          className="text-center text-gray-300 font-normal"
+        >
+          Solicitar un nuevo Código
+        </Link>
+      </nav>
     </>
   );
 }
