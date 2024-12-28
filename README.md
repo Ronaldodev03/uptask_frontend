@@ -66,3 +66,39 @@ navigate(location.pathname, { replace: true })`
 
 - toast.error(error.message,
   { toastId: "error" }); --> el toastId es para que react no haga doble render del toast. Ejm: TaskModalDetail.
+
+### Error handling
+
+#### projects
+
+- Lo que se ve en DashboardView depende de lo que venga en el useQuery (isLoading o data).
+
+- Lo que se ve en ProjectDetailsView depende de lo que venga en el useQuery (isLoading, isError o data) --> Si isError te lleva a 404 --> isError puede venir si tiene un projectId incorrecto en la URL.
+
+- Lo que se ve en EditProjectView depende de lo que venga en el useQuery (isLoading, isError o data) --> Si isError te lleva a 404 --> isError puede venir si tiene un projectId incorrecto en la URL.
+
+- En createProjectView siempre se muestra el form (no depende de useQuery), lo que si, es que te puede dar mensaje de error si n se hace el guardado del project de forma correcta. Si si se guarda correctamente entonces redirecciona a DashboardView.
+
+- AddTaskModal solo sale si newTask esta en la query de la URL (el valor es true) y projectId debe ser valido, sino va al 404. Si projectId no es valido estamos en la ruta ProjectDetailsView y vendrá un isError que manda al 404.
+
+#### tasks
+
+- EditTaskData & EditTaskModal estan conectados, el 1ero renderiza al 2nd. El 2nd sale en ProjectDetailsView, si no esta bien los id de la url manda al 404.
+
+- TaskModalDetail tambien esta en ProjectDetailsView. En este caso, si hay un error en el taskId te manda un mensaje de tarea no encontrada y redirecciona al ProjectDetailsView (sin query en la URL).
+
+### explicacion de componentes structure
+
+- CreateProjectView y EditProjectForm (luego renderizado en EditProjectView) son sort of the same. La diferencia es que antes de usar el EditProjectView necesito traerme los datos (lo cual se hace en EditProjectView) y eso no es necesario en CreateProjectView.
+
+- EditTaskData se hace para renderizar a EditTaskModal tal que solo tenga la responsabilidad de ser un modal y que renderize ya cuando haya la data (el useQuery se hace en EditTaskData).
+
+- TaskModalDetail hace el fetch de la data en el propio componente (este componente es un modal)
+
+- TaskList se renderiza en ProjectdetailsView y recide la data como prop.
+
+- AddTaskModal es un modal normal, solo tiene useMutation y dentr tiene a TaskForm para rellenar (just like CreateProjectView would do).
+
+### Status del Project en cuanto a front
+
+- Tareas y projectos tienen el CRUD funcional.
