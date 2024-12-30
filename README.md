@@ -35,6 +35,15 @@
 
 - Solo haz schema para validar las res con GET, no es necesario validar todo lo demas (ejem: las res de PUT, POST, DELETE...).
 
+- combinacion Pick | extend -->
+  `export const userSchema = authSchema
+.pick({
+name: true,
+email: true,
+})
+.extend({_id: z.string(),
+});`
+
 ### Types recommendation & notes
 
 - Si necesito types para pros que se pasan a components, hazlas en el mismo component. Ejem: ProjectForm, editProjectForm, TaskForm, ...
@@ -99,6 +108,30 @@ navigate(location.pathname, { replace: true })`
 
 - AddTaskModal es un modal normal, solo tiene useMutation y dentr tiene a TaskForm para rellenar (just like CreateProjectView would do).
 
-### Status del Project en cuanto a front
+### login
 
-- Tareas y projectos tienen el CRUD funcional.
+- Cuando se hace login el back envia el token (jwt) y se guarda en localstorage.
+
+- En AppLayout se manda a llamar el customHook useAuth() que hace un useQuery a la funcion getUser.
+
+- getUser va a la ruta del back "/auth/user" que simplemente hace una request al user, pero tiene un middleware que chequea si esta el token en los headers como bearer.
+
+- Si no está el token te manda para "auth/login" en el frontend. Si sí esta el token entonces retorna al user al cual pertenece ese token (el token le pertenece a un unico user). Si el token es no válido te envia un mensaje de error y te manda a "auth/login" en el frontend.
+
+- Para acceder a cualquier ruta dentro de AppLayout se necesita tener ese token, el cual se setea con el login.
+
+### request-new-confirmation-code
+
+- Se usa el email del user. La ruta del back lo que hace es ubicar al user al que le pertenece ese correo. Si sí existe entonces verifica si esta confirmado. Si no esta confirmado le envia un token al email. Ese token es colocado en db tambien, de forma tal que al ir a la ruta de los tokens el token estará asociado a un user y se coloc ese user como autenticado (esa ultima parte sería lo que hace confirmAccount).
+
+### forgot-password
+
+- Checks if user is in db using the email. If yes then a token is created, a message is sent and a URL leading to "/new-password" for the frontend. there user have to provide the code.
+
+- Code goes to "validateToken" function in front, which leads to "/auth/validate-token" in back. There logic finds the user and then, in front, the token sets the state and the form for new password is shown to the user.
+
+- Then we go to "updatePasswordWithToken" funtion in front, which lead to "/auth/update-password/${token}" in back. There logic changes password for the new one.
+
+### logout
+
+- Remove token from localStorage.
