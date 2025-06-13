@@ -5,6 +5,7 @@ import { UserRegistrationForm } from "@/types/index";
 import ErrorMessage from "@/components/ErrorMessage";
 import { createAccount } from "@/api/AuthAPI";
 import { toast } from "react-toastify";
+import LoaderMensaje from "@/components/LoaderMessage";
 
 export default function RegisterView() {
   const initialValues: UserRegistrationForm = {
@@ -22,7 +23,7 @@ export default function RegisterView() {
     formState: { errors },
   } = useForm<UserRegistrationForm>({ defaultValues: initialValues });
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: createAccount,
     onError: (error) => {
       toast.error(error.message);
@@ -126,9 +127,13 @@ export default function RegisterView() {
         <input
           type="submit"
           value="Registrarme"
-          className="bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-3  text-white font-black  text-xl cursor-pointer"
+          className={`bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-3  text-white font-black  text-xl cursor-pointer    ${
+            isPending ? "opacity-50" : "opacity-100"
+          }`}
         />
       </form>
+
+      {isPending && <LoaderMensaje className=" text-white pt-2 text-center" />}
 
       <nav className="mt-10 flex flex-col space-y-4">
         <Link

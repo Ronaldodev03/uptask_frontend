@@ -5,6 +5,7 @@ import { UserLoginForm } from "@/types/index";
 import ErrorMessage from "@/components/ErrorMessage";
 import { authenticateUser } from "@/api/AuthAPI";
 import { toast } from "react-toastify";
+import LoaderMensaje from "@/components/LoaderMessage";
 
 export default function LoginView() {
   const initialValues: UserLoginForm = {
@@ -19,7 +20,7 @@ export default function LoginView() {
   } = useForm({ defaultValues: initialValues });
   const navigate = useNavigate();
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: authenticateUser,
     onError: (error) => {
       toast.error(error.message);
@@ -85,9 +86,13 @@ export default function LoginView() {
         <input
           type="submit"
           value="Iniciar Sesión"
-          className="bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-3  text-white font-black  text-xl cursor-pointer"
+          className={`bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-3  text-white font-black  text-xl cursor-pointer    ${
+            isPending ? "opacity-50" : "opacity-100"
+          }`}
         />
       </form>
+
+      {isPending && <LoaderMensaje className=" text-white pt-2 text-center" />}
 
       <nav className="mt-10 flex flex-col space-y-4">
         <Link
