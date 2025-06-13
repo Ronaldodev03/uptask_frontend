@@ -1,13 +1,22 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { UserLoginForm } from "@/types/index";
 import ErrorMessage from "@/components/ErrorMessage";
 import { authenticateUser } from "@/api/AuthAPI";
 import { toast } from "react-toastify";
 import LoaderMensaje from "@/components/LoaderMessage";
+import { useEffect } from "react";
 
 export default function LoginView() {
+  const queryClient = useQueryClient();
+
+  // Borra la query "user"
+  useEffect(() => {
+    queryClient.removeQueries({ queryKey: ["user"] });
+    queryClient.removeQueries({ queryKey: ["projects"] });
+  }, [queryClient]);
+
   const initialValues: UserLoginForm = {
     email: "ronaldosalazar.dev@gmail.com",
     password: "correocorreo",
