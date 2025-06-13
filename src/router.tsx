@@ -24,6 +24,7 @@ export default function Router() {
             path="/projects/:projectId/edit"
             element={<EditProjectView />}
           />
+          <Route path="/profile" element={<p>Not implemented yet</p>} />
         </Route>
 
         <Route element={<AuthLayout />}>
