@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { Bars3Icon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { User } from "../types";
 
 type NavMenuProps = {
@@ -11,10 +11,13 @@ type NavMenuProps = {
 
 export default function NavMenu({ name }: NavMenuProps) {
   const queryClient = useQueryClient();
-  const logout = () => {
-    localStorage.removeItem("AUTH_TOKEN");
-    queryClient.invalidateQueries({ queryKey: ["user"] });
-  };
+
+  const logoutMutation = useMutation({
+    mutationFn: async () => {
+      localStorage.removeItem("AUTH_TOKEN");
+      await queryClient.invalidateQueries({ queryKey: ["user"] });
+    },
+  });
 
   return (
     <Popover className="relative">
@@ -41,9 +44,12 @@ export default function NavMenu({ name }: NavMenuProps) {
               Mis Proyectos
             </Link>
             <button
-              className="block p-2 hover:text-purple-950"
+              disabled={logoutMutation.isPending}
+              className={`block p-2 hover:text-purple-900 ${
+                logoutMutation.isPending ? " opacity-50" : " opacity-100"
+              }`}
               type="button"
-              onClick={logout}
+              onClick={() => logoutMutation.mutate()}
             >
               Cerrar Sesión
             </button>
