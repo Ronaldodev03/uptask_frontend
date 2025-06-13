@@ -19,7 +19,7 @@ export default function ProjectDetailsView() {
 
   const isManager = true;
 
-  if (isLoading) return "Cargando...";
+  if (isLoading) return <p className=" text-center">Cargando...</p>;
   if (isError) return <Navigate to="/404" />;
   if (data)
     return (

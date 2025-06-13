@@ -28,7 +28,7 @@ export default function DashboardView() {
     },
   });
 
-  if (isLoading) return "Cargando...";
+  if (isLoading) return <p className=" text-center">Cargando...</p>;
 
   if (data)
     return (

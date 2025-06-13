@@ -11,7 +11,7 @@ export default function EditProjectView() {
     queryFn: () => getProjectById(projectId),
     retry: false,
   });
-  if (isLoading) return "Cargando...";
+  if (isLoading) return <p className=" text-center">Cargando...</p>;
   if (isError) return <Navigate to="/404" />;
   if (data) return <EditProjectForm data={data} projectId={projectId} />;
 }
