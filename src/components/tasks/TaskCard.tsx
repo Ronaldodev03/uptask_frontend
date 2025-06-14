@@ -43,17 +43,20 @@ export default function TaskCard({ task, canEdit }: TaskCardProps) {
         display: "flex",
         borderWidth: "1px",
         borderColor: "rgb(203 213 225 / var(--tw-border-opacity))",
+        touchAction: "none", // Previene el scroll accidental
       }
     : undefined;
 
   return (
-    <li className="p-5 bg-white border border-slate-300 flex justify-between gap-3">
+    <li
+      ref={setNodeRef}
+      style={style}
+      className="p-5 bg-white border border-slate-300 flex justify-between gap-3"
+    >
       <div
         {...listeners}
         {...attributes}
-        ref={setNodeRef}
-        style={style}
-        className=" min-w-0 flex flex-col gap-y-4"
+        className=" min-w-0 flex flex-col gap-y-4 touch-none"
       >
         <p className="text-xl font-bold text-slate-600 text-left">
           {task.name}

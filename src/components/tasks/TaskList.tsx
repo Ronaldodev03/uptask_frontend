@@ -1,4 +1,12 @@
-import { DndContext, DragEndEvent } from "@dnd-kit/core";
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from "@dnd-kit/core";
 import { Project, TaskProject, TaskStatus } from "@/types/index";
 import TaskCard from "./TaskCard";
 import { statusTranslations } from "@/locales/es";
@@ -53,6 +61,21 @@ export default function TaskList({ tasks }: TaskListProps) {
     return { ...acc, [task.status]: currentGroup };
   }, initialStatusGroups);
 
+  // Configuración de sensores para móvil
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // Requiere 5px de movimiento para iniciar arrastre
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250, // Retraso de 250ms para distinguir toque/arrastre
+        tolerance: 5, // Tolerancia de 5px
+      },
+    })
+  );
+
   const handleDragEnd = (e: DragEndEvent) => {
     const { over, active } = e;
 
@@ -85,7 +108,11 @@ export default function TaskList({ tasks }: TaskListProps) {
       <h2 className="text-5xl font-black my-10">Tareas</h2>
 
       <div className="flex gap-5 overflow-x-scroll 2xl:overflow-auto pb-32">
-        <DndContext onDragEnd={handleDragEnd}>
+        <DndContext
+          onDragEnd={handleDragEnd}
+          collisionDetection={closestCenter}
+          sensors={sensors}
+        >
           {Object.entries(groupedTasks).map(([status, tasks]) => (
             <div key={status} className="min-w-[300px] 2xl:min-w-0 2xl:w-1/5">
               <h3
